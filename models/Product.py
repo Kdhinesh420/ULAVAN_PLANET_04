@@ -7,6 +7,7 @@ from datetime import datetime
 class Product(Base):
     __tablename__ = "products"
     id = Column(Integer, primary_key=True, index=True)
+    seller_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     category_id = Column(Integer, ForeignKey('categories.category_id', ondelete='SET NULL'))
     name = Column(String(200), nullable=False)
     description = Column(Text)
@@ -15,6 +16,7 @@ class Product(Base):
     image_url = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+    seller = relationship("User", back_populates="products")
     carts = relationship("Cart", back_populates="product")
     category = relationship("Category", back_populates="products")
     reviews = relationship("Review", back_populates="product")
